@@ -8,4 +8,23 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/title_rotationvector"
         android:id="@+id/id_title_rotationvector" />
+
+    <TextureView
+        android:layout_below="@id/id_title_rotationvector"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/surface_view" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnCapture"
+        android:id="@+id/button_capture"
+        android:onClick="onCaptureClick"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

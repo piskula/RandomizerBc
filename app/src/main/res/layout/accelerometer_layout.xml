@@ -286,6 +286,102 @@
                 android:layout_alignTop="@+id/text_gravity03"
                 android:text="@string/ms2_unit" />
 
+            <!--LINEAR ACCELEROMETER-->
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_gravity03"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_linearaccelerometer"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView32"
+                android:text="Acceleration force along the x axis " />
+
+            <TextView
+                android:id="@+id/text_linearaccelerometer01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView33"
+                android:layout_toEndOf="@+id/textView33"
+                android:layout_toRightOf="@+id/textView33"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView34"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView33"
+                android:text="Acceleration force along the y axis " />
+
+            <TextView
+                android:id="@+id/text_linearaccelerometer02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView34"
+                android:layout_toEndOf="@+id/textView34"
+                android:layout_toRightOf="@+id/textView34"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView34"
+                android:text="Acceleration force along the z axis " />
+
+            <TextView
+                android:id="@+id/text_linearaccelerometer03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView35"
+                android:layout_toEndOf="@+id/textView35"
+                android:layout_toRightOf="@+id/textView35"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView32"
+                android:layout_toEndOf="@+id/text_linearaccelerometer01"
+                android:layout_toRightOf="@+id/text_linearaccelerometer01"
+                android:text="@string/rads_unit" />
+
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView36"
+                android:layout_alignStart="@+id/textView36"
+                android:layout_alignTop="@+id/text_linearaccelerometer02"
+                android:text="@string/rads_unit" />
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView37"
+                android:layout_alignStart="@+id/textView37"
+                android:layout_alignTop="@+id/text_linearaccelerometer03"
+                android:text="@string/rads_unit" />
+
             <!--GYROSCOPE-->
             <TextView
                 android:id="@+id/textView19"
@@ -293,7 +389,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/text_gravity03"
+                android:layout_below="@+id/text_linearaccelerometer03"
                 android:layout_marginTop="20dp"
                 android:text="@string/title_gyroscope"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -401,7 +497,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView26"
-                android:text="Rate of rotation around the x axis " />
+                android:text="Ambient light level " />
 
             <TextView
                 android:id="@+id/text_light01"
@@ -441,7 +537,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView29"
-                android:text="Rate of rotation around the x axis " />
+                android:text="Proximity of an object " />
 
             <TextView
                 android:id="@+id/text_proximity01"
@@ -462,6 +558,355 @@
                 android:layout_toRightOf="@+id/text_proximity01"
                 android:text="@string/cm_unit" />
 
+            <!--MAGNETIC FIELD-->
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_proximity01"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_magnetic"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textView40"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView39"
+                android:text="Ambient geomagnetic field for x axis " />
+
+            <TextView
+                android:id="@+id/text_magnetic01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView40"
+                android:layout_toEndOf="@+id/textView40"
+                android:layout_toRightOf="@+id/textView40"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView40"
+                android:text="Ambient geomagnetic field for y axis " />
+
+            <TextView
+                android:id="@+id/text_magnetic02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView41"
+                android:layout_toEndOf="@+id/textView41"
+                android:layout_toRightOf="@+id/textView41"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView42"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView41"
+                android:text="Ambient geomagnetic field for z axis " />
+
+            <TextView
+                android:id="@+id/text_magnetic03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView42"
+                android:layout_toEndOf="@+id/textView42"
+                android:layout_toRightOf="@+id/textView42"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView43"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView39"
+                android:layout_toEndOf="@+id/text_magnetic01"
+                android:layout_toRightOf="@+id/text_magnetic01"
+                android:text="@string/mt_unit" />
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView43"
+                android:layout_alignStart="@+id/textView43"
+                android:layout_alignTop="@+id/text_magnetic02"
+                android:text="@string/mt_unit" />
+
+            <TextView
+                android:id="@+id/textView45"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView44"
+                android:layout_alignStart="@+id/textView44"
+                android:layout_alignTop="@+id/text_magnetic03"
+                android:text="@string/mt_unit" />
+
+            <!--ORIENTATION-->
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_magnetic03"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_orientation"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textView47"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView46"
+                android:text="azimuth " />
+
+            <TextView
+                android:id="@+id/text_orientation01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView47"
+                android:layout_toEndOf="@+id/textView47"
+                android:layout_toRightOf="@+id/textView47"
+                android:width="150dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView47"
+                android:text="pitch   " />
+
+            <TextView
+                android:id="@+id/text_orientation02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView48"
+                android:layout_toEndOf="@+id/textView48"
+                android:layout_toRightOf="@+id/textView48"
+                android:width="150dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView49"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView48"
+                android:text="roll    " />
+
+            <TextView
+                android:id="@+id/text_orientation03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView49"
+                android:layout_toEndOf="@+id/textView49"
+                android:layout_toRightOf="@+id/textView49"
+                android:width="150dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView46"
+                android:layout_toEndOf="@+id/text_orientation01"
+                android:layout_toRightOf="@+id/text_orientation01"
+                android:text="@string/degrees_unit" />
+
+            <TextView
+                android:id="@+id/textView51"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView50"
+                android:layout_alignStart="@+id/textView50"
+                android:layout_alignTop="@+id/text_orientation02"
+                android:text="@string/degrees_unit" />
+
+            <TextView
+                android:id="@+id/textView52"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView51"
+                android:layout_alignStart="@+id/textView51"
+                android:layout_alignTop="@+id/text_orientation03"
+                android:text="@string/degrees_unit" />
+
+            <!--AMBIENT TEMPERATURE-->
+            <TextView
+                android:id="@+id/textView53"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_orientation03"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_ambienttemperature"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textView54"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView53"
+                android:text="Temperature " />
+
+            <TextView
+                android:id="@+id/text_ambienttemperature01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView54"
+                android:layout_toEndOf="@+id/textView54"
+                android:layout_toRightOf="@+id/textView54"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView55"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView53"
+                android:layout_toEndOf="@+id/text_ambienttemperature01"
+                android:layout_toRightOf="@+id/text_ambienttemperature01"
+                android:text="@string/degreescelsius_unit" />
+
+            <!--TEMPERATURE-->
+            <TextView
+                android:id="@+id/textView56"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_ambienttemperature01"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_temperature"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textView57"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView56"
+                android:text="Temperature " />
+
+            <TextView
+                android:id="@+id/text_temperature01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView57"
+                android:layout_toEndOf="@+id/textView57"
+                android:layout_toRightOf="@+id/textView57"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView58"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView56"
+                android:layout_toEndOf="@+id/text_temperature01"
+                android:layout_toRightOf="@+id/text_temperature01"
+                android:text="@string/degreescelsius_unit" />
+
+            <!--BATTERY-->
+            <TextView
+                android:id="@+id/textView59"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_temperature01"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_battery"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/text_battery01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView59"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/text_battery02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_battery01"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/text_battery03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_battery02"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/text_battery04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_battery03"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/text_battery05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_battery04"
+                android:text="@string/number_example" />
+
+            <!--MICROPHONE-->
+            <TextView
+                android:id="@+id/textView60"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_battery05"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_microphone"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/text_microphone01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView60"
+                android:text="@string/number_example" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

@@ -17,10 +17,12 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    private RotationVectorFragment myRotationVectorFragment;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -52,7 +54,8 @@ public class MainActivity extends AppCompatActivity
 
         switch(position){
             case 0:
-                objFragment = new RotationVectorFragment();
+                myRotationVectorFragment = new RotationVectorFragment();
+                objFragment = myRotationVectorFragment;
                 break;
             case 1:
                 objFragment = new AccelerometerFragment();
@@ -121,6 +124,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onCaptureClick(View view) {
+        if(myRotationVectorFragment != null){
+            myRotationVectorFragment.onCaptureClick(view);
+        }
+        else{
+            Toast.makeText(this, "myRotationVectorFragment is null", Toast.LENGTH_SHORT);
+        }
     }
 
     /**
