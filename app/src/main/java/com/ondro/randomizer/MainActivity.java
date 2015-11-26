@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity
             case 1:
                 objFragment = new AccelerometerFragment();
                 break;
+            case 2:
+                objFragment = new AvailableSensorFragment();
+                break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -84,9 +87,9 @@ public class MainActivity extends AppCompatActivity
             case 2:
                 mTitle = getString(R.string.title_section2);
                 break;
-            /*case 3:
+            case 3:
                 mTitle = getString(R.string.title_section3);
-                break;*/
+                break;
         }
     }
 
@@ -174,5 +177,4 @@ public class MainActivity extends AppCompatActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }

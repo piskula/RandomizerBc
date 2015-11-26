@@ -8,6 +8,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.hardware.TriggerEvent;
+import android.hardware.TriggerEventListener;
 import android.media.MediaRecorder;
 import android.os.BatteryManager;
 import android.os.Bundle;
@@ -20,8 +22,12 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Created by Ondro on 27-Oct-15.
@@ -38,8 +44,16 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private Sensor mySensorLight;
     private Sensor mySensorProximity;
     private Sensor mySensorMagnetic;
-    private Sensor mySensorTemperature;
+    //private Sensor mySensorTemperature;
     private Sensor mySensorAmbientTemperature;
+    //private Sensor mySensorSignificantMotion;
+    //private TriggerEventListener mTriggerEventListener;
+    private Sensor mySensorStepCounter;
+    private int stepsThisApp = 0;
+    private int stepsDetectedThisApp = 0;
+    private Sensor mySensorStepDetector;
+    private Sensor mySensorSignificantMotion;
+    private SignificantMotionTriggerListener mSignificantMotionListener;
 
     private TextView accTextView01;
     private TextView accTextView02;
@@ -51,6 +65,7 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private TextView rotVecTextView02;
     private TextView rotVecTextView03;
     private TextView rotVecTextView04;
+    private TextView rotVecTextView05;
     private TextView gravityTextView01;
     private TextView gravityTextView02;
     private TextView gravityTextView03;
@@ -65,17 +80,22 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private TextView orientationTextView01;
     private TextView orientationTextView02;
     private TextView orientationTextView03;
-    private TextView temperatureTextView;
+    private TextView pressureTextView;
     private TextView ambientTemperatureTextView;
     private TextView microphoneTextView;
-
-    private float[] mGravity;
-    private float[] mGeomagnetic;
-
     private TextView batteryTextView01;
     private TextView batteryTextView02;
     private TextView batteryTextView03;
     private TextView batteryTextView04;
+    private TextView stepCounterTextView01;
+    private TextView stepCounterTextView02;
+    private TextView stepDetector01;
+    private TextView stepDetector02;
+    private TextView significantMotion;
+
+    private float[] mGravity;
+    private float[] mGeomagnetic;
+
 
     @Nullable
     @Override
@@ -86,10 +106,11 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         //disable screen lock
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        getActivity().registerReceiver(batteryBroadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-
         InitializeSensors();
         InitializeViews();
+
+        getActivity().registerReceiver(batteryBroadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        mSignificantMotionListener = new SignificantMotionTriggerListener(this.getActivity(), significantMotion);
 
         return rootView;
     }
@@ -103,8 +124,12 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         mySensorLight = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mySensorProximity = mySensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         mySensorMagnetic = mySensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        mySensorTemperature = mySensorManager.getDefaultSensor(Sensor.TYPE_TEMPERATURE);
+        //mySensorTemperature = mySensorManager.getDefaultSensor(Sensor.TYPE_TEMPERATURE);
         mySensorAmbientTemperature = mySensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        //mySensorSignificantMotion = mySensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
+        mySensorStepCounter = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mySensorStepDetector = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        mySensorSignificantMotion = mySensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
     }
 
     private void InitializeViews(){
@@ -118,6 +143,7 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         rotVecTextView02 = (TextView) rootView.findViewById(R.id.text_rotationvector02);
         rotVecTextView03 = (TextView) rootView.findViewById(R.id.text_rotationvector03);
         rotVecTextView04 = (TextView) rootView.findViewById(R.id.text_rotationvector04);
+        rotVecTextView05 = (TextView) rootView.findViewById(R.id.text_rotationvector05);
         gravityTextView01 = (TextView) rootView.findViewById(R.id.text_gravity01);
         gravityTextView02 = (TextView) rootView.findViewById(R.id.text_gravity02);
         gravityTextView03 = (TextView) rootView.findViewById(R.id.text_gravity03);
@@ -133,12 +159,18 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         orientationTextView02 = (TextView) rootView.findViewById(R.id.text_orientation02);
         orientationTextView03 = (TextView) rootView.findViewById(R.id.text_orientation03);
         ambientTemperatureTextView = (TextView) rootView.findViewById(R.id.text_ambienttemperature01);
-        temperatureTextView = (TextView) rootView.findViewById(R.id.text_temperature01);
+        pressureTextView = (TextView) rootView.findViewById(R.id.text_pressure01);
         batteryTextView01 = (TextView) rootView.findViewById(R.id.text_battery01);
         batteryTextView02 = (TextView) rootView.findViewById(R.id.text_battery02);
         batteryTextView03 = (TextView) rootView.findViewById(R.id.text_battery03);
         batteryTextView04 = (TextView) rootView.findViewById(R.id.text_battery04);
         microphoneTextView = (TextView) rootView.findViewById(R.id.text_microphone01);
+        stepCounterTextView01 = (TextView) rootView.findViewById(R.id.text_stepcounter01);
+        stepCounterTextView02 = (TextView) rootView.findViewById(R.id.text_stepcounter02);
+        stepDetector01 = (TextView) rootView.findViewById(R.id.text_stepdetector01);
+        stepDetector01.setText("::");
+        stepDetector02 = (TextView) rootView.findViewById(R.id.text_stepdetector02);
+        significantMotion = (TextView) rootView.findViewById(R.id.text_significantmotion01);
     }
 
     public void onSensorChanged(SensorEvent event){
@@ -156,39 +188,52 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
                 linAccTextView03.setText("" + event.values[2]);
                 break;
             case Sensor.TYPE_ROTATION_VECTOR:
-                rotVecTextView01.setText("" + event.values[0]);
-                rotVecTextView02.setText("" + event.values[1]);
-                rotVecTextView03.setText("" + event.values[2]);
-                rotVecTextView04.setText("" + event.values[3]);
+                rotVecTextView01.setText(String.valueOf(event.values[0]));
+                rotVecTextView02.setText(String.valueOf(event.values[1]));
+                rotVecTextView03.setText(String.valueOf(event.values[2]));
+                rotVecTextView04.setText(String.valueOf(event.values[3]));
+                rotVecTextView05.setText(String.valueOf(event.values[4]));
                 break;
             case Sensor.TYPE_GRAVITY:
-                gravityTextView01.setText("" + event.values[0]);
-                gravityTextView02.setText("" + event.values[1]);
-                gravityTextView03.setText("" + event.values[2]);
+                gravityTextView01.setText(String.valueOf(event.values[0]));
+                gravityTextView02.setText(String.valueOf(event.values[1]));
+                gravityTextView03.setText(String.valueOf(event.values[2]));
                 break;
             case Sensor.TYPE_GYROSCOPE:
-                gyroscopeTextView01.setText("" + event.values[0]);
-                gyroscopeTextView02.setText("" + event.values[1]);
-                gyroscopeTextView03.setText("" + event.values[2]);
+                gyroscopeTextView01.setText(String.valueOf(event.values[0]));
+                gyroscopeTextView02.setText(String.valueOf(event.values[1]));
+                gyroscopeTextView03.setText(String.valueOf(event.values[2]));
                 break;
             case Sensor.TYPE_LIGHT:
-                lightTextView01.setText("" + event.values[0]);
+                lightTextView01.setText(String.valueOf(event.values[0]));
                 break;
             case Sensor.TYPE_PROXIMITY:
-                proximityTextView01.setText("" + event.values[0]);
+                proximityTextView01.setText(String.valueOf(event.values[0]));
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mGeomagnetic = event.values;
-                magneticTextView01.setText("" + event.values[0]);
-                magneticTextView02.setText("" + event.values[1]);
-                magneticTextView03.setText("" + event.values[2]);
+                magneticTextView01.setText(String.valueOf(event.values[0]));
+                magneticTextView02.setText(String.valueOf(event.values[1]));
+                magneticTextView03.setText(String.valueOf(event.values[2]));
                 refreshOrientation();
                 break;
             case Sensor.TYPE_AMBIENT_TEMPERATURE:
-                ambientTemperatureTextView.setText("Y" + event.values[0]);
+                ambientTemperatureTextView.setText(String.valueOf(event.values[0]));
                 break;
-            case Sensor.TYPE_TEMPERATURE:
-                temperatureTextView.setText("Y" + event.values[0]);
+            case Sensor.TYPE_PRESSURE:
+                pressureTextView.setText(String.valueOf(event.values[0]));
+                break;
+            case Sensor.TYPE_STEP_COUNTER:
+                if(stepsThisApp < 1){
+                    stepsThisApp = (int) event.values[0];
+                }
+                stepCounterTextView01.setText(String.valueOf((int) event.values[0]));
+                stepCounterTextView02.setText(String.valueOf(((int) event.values[0]) - stepsThisApp));
+                break;
+            case Sensor.TYPE_STEP_DETECTOR:
+                stepsDetectedThisApp++;
+                stepDetector01.append("|x");
+                stepDetector02.setText(String.valueOf(stepsDetectedThisApp));
                 break;
         }
     }
@@ -247,8 +292,13 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         mySensorManager.registerListener(this, mySensorLight, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorProximity, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorMagnetic, SensorManager.SENSOR_DELAY_NORMAL);
-        mySensorManager.registerListener(this, mySensorTemperature, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorAmbientTemperature, SensorManager.SENSOR_DELAY_NORMAL);
+        mySensorManager.registerListener(this, mySensorStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
+        mySensorManager.registerListener(this, mySensorStepDetector, SensorManager.SENSOR_DELAY_NORMAL);
+        if(mySensorSignificantMotion != null
+                && mySensorManager.requestTriggerSensor(mSignificantMotionListener, mySensorSignificantMotion)){
+            significantMotion.setText("SignificantMotion ENABLED (Waiting..)\n");
+        }
     }
 
     public void onPause() {
@@ -256,5 +306,8 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         super.onPause();
         getActivity().unregisterReceiver(batteryBroadcastReceiver);
         mySensorManager.unregisterListener(this);
+        if(mySensorSignificantMotion != null){
+            mySensorManager.cancelTriggerSensor(mSignificantMotionListener, mySensorSignificantMotion);
+        }
     }
 }

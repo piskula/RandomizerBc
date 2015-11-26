@@ -3,8 +3,7 @@
 
     <string name="title_section1">Capturing</string>
     <string name="title_section2">Sensor Values</string>
-    <string name="title_section3">Sensor 3</string>
-    <string name="title_rotationvector">Rotation Vector</string>
+    <string name="title_section3">Available Sensors</string>
     <string name="title_accelerometer">Accelerometer</string>
     <string name="title_ambienttemperature">Ambient Temperature</string>
     <string name="title_battery">Battery</string>
@@ -16,7 +15,11 @@
     <string name="title_microphone">Microphone</string>
     <string name="title_orientation">Orientation</string>
     <string name="title_proximity">Proximity</string>
-    <string name="title_temperature">Temperature</string>
+    <string name="title_pressure">Pressure</string>
+    <string name="title_rotationvector">Rotation Vector</string>
+    <string name="title_significantmotion">Significant Motion</string>
+    <string name="title_step_counter">Step Counter</string>
+    <string name="title_step_detector">Step Detector</string>
 
     <string name="ms2_unit"> m/s<sup>2</sup></string>
     <string name="rads_unit"> rad/s</string>
@@ -25,6 +28,7 @@
     <string name="mt_unit"> μT</string>
     <string name="degrees_unit"> °</string>
     <string name="degreescelsius_unit"> °C</string>
+    <string name="hpa_unit"> hPa</string>
     <string name="number_example">NoSupp</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

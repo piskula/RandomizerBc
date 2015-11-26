@@ -10,13 +10,27 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Available Sensors are on other fragment in this app!"
+                android:id="@+id/id_available_sensors"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
             <!--ACCELEROMETER-->
             <TextView
                 android:id="@+id/id_title_accelerometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_accelerometer"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_below="@+id/id_available_sensors"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:id="@+id/text_accelerometer01"
@@ -187,6 +201,25 @@
                 android:layout_alignTop="@+id/textView11"
                 android:layout_toEndOf="@+id/textView11"
                 android:layout_toRightOf="@+id/textView11"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView61"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView11"
+                android:text="Accuracy " />
+
+            <TextView
+                android:id="@+id/text_rotationvector05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView61"
+                android:layout_toEndOf="@+id/textView61"
+                android:layout_toRightOf="@+id/textView61"
                 android:width="100dp"
                 android:text="@string/number_example" />
 
@@ -790,7 +823,7 @@
                 android:layout_toRightOf="@+id/text_ambienttemperature01"
                 android:text="@string/degreescelsius_unit" />
 
-            <!--TEMPERATURE-->
+            <!--PRESSURE-->
             <TextView
                 android:id="@+id/textView56"
                 android:layout_width="wrap_content"
@@ -799,7 +832,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/text_ambienttemperature01"
                 android:layout_marginTop="20dp"
-                android:text="@string/title_temperature"
+                android:text="@string/title_pressure"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -809,10 +842,10 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView56"
-                android:text="Temperature " />
+                android:text="Pressure " />
 
             <TextView
-                android:id="@+id/text_temperature01"
+                android:id="@+id/text_pressure01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/textView57"
@@ -826,9 +859,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView56"
-                android:layout_toEndOf="@+id/text_temperature01"
-                android:layout_toRightOf="@+id/text_temperature01"
-                android:text="@string/degreescelsius_unit" />
+                android:layout_toEndOf="@+id/text_pressure01"
+                android:layout_toRightOf="@+id/text_pressure01"
+                android:text="@string/hpa_unit" />
 
             <!--BATTERY-->
             <TextView
@@ -837,7 +870,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/text_temperature01"
+                android:layout_below="@+id/text_pressure01"
                 android:layout_marginTop="20dp"
                 android:text="@string/title_battery"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -878,15 +911,6 @@
                 android:layout_below="@+id/text_battery03"
                 android:text="@string/number_example" />
 
-            <TextView
-                android:id="@+id/text_battery05"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/text_battery04"
-                android:text="@string/number_example" />
-
             <!--MICROPHONE-->
             <TextView
                 android:id="@+id/textView60"
@@ -894,7 +918,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/text_battery05"
+                android:layout_below="@+id/text_battery04"
                 android:layout_marginTop="20dp"
                 android:text="@string/title_microphone"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -907,6 +931,136 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView60"
                 android:text="@string/number_example" />
+
+            <!--STEP COUNTER-->
+            <TextView
+                android:id="@+id/textView62"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_microphone01"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_step_counter"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textView63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView62"
+                android:text="Step count since reboot " />
+
+            <TextView
+                android:id="@+id/text_stepcounter01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView63"
+                android:layout_toEndOf="@+id/textView63"
+                android:layout_toRightOf="@+id/textView63"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView64"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView63"
+                android:text="From This App Start: " />
+
+            <TextView
+                android:id="@+id/text_stepcounter02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView64"
+                android:layout_toEndOf="@+id/textView64"
+                android:layout_toRightOf="@+id/textView64"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <!--STEP DETECTOR-->
+            <TextView
+                android:id="@+id/textView65"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_stepcounter02"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_step_detector"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textView66"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView65"
+                android:text="Step detection " />
+
+            <TextView
+                android:id="@+id/text_stepdetector01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView66"
+                android:layout_toEndOf="@+id/textView66"
+                android:layout_toRightOf="@+id/textView66"
+                android:text="@string/number_example" />
+
+            <TextView
+                android:id="@+id/textView67"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView66"
+                android:text="Step detection " />
+
+            <TextView
+                android:id="@+id/text_stepdetector02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView67"
+                android:layout_toEndOf="@+id/textView67"
+                android:layout_toRightOf="@+id/textView67"
+                android:width="100dp"
+                android:text="@string/number_example" />
+
+            <!--SIGNIFICANT MOTION-->
+            <TextView
+                android:id="@+id/textView68"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_stepdetector02"
+                android:layout_marginTop="20dp"
+                android:text="@string/title_significantmotion"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textView69"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView68"
+                android:text="Actual status: " />
+
+            <TextView
+                android:id="@+id/text_significantmotion01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView69"
+                android:layout_toEndOf="@+id/textView69"
+                android:layout_toRightOf="@+id/textView69"
+                android:text="@string/number_example" />
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
