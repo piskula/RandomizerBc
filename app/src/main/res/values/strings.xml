@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Randomizer</string>
 
-    <string name="title_section1">Capturing</string>
+    <string name="title_section1">Available Sensors</string>
     <string name="title_section2">Sensor Values</string>
-    <string name="title_section3">Available Sensors</string>
+    <string name="title_section3">Capturing</string>
+    <string name="title_section4">Background</string>
     <string name="title_accelerometer">Accelerometer</string>
     <string name="title_ambienttemperature">Ambient Temperature</string>
     <string name="title_battery">Battery</string>
@@ -33,6 +34,9 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="spinner_time_prompt">Time of Streaming</string>
+    <string name="spinner_interval_prompt">Interval</string>
 
     <string name="action_example">Example action</string>
     <string name="btnCapture">capture</string>

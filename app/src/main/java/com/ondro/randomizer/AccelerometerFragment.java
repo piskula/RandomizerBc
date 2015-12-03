@@ -1,38 +1,43 @@
 package com.ondro.randomizer;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.hardware.TriggerEvent;
-import android.hardware.TriggerEventListener;
-import android.media.MediaRecorder;
-import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
 
 /**
  * Created by Ondro on 27-Oct-15.
  */
 public class AccelerometerFragment extends Fragment implements SensorEventListener {
+    public static final long BATTERY_REFRESH_TIME = 300;
+    public static final String BATTERY_STATUS_PATH = "/sys/class/power_supply/battery";
+    public static final String BATTERY_CURRENT_FILE = "current_now";
+    public static final String BATTERY_RESISTANCE_FILE = "resistance";
+    public static final String BATTERY_UEVENT_FILE = "uevent";
+    public static final String BATTERY_TEMP_FILE = "temp";
+    public static final String BATTERY_VOLTAGE_FILE = "voltage_now";
+
+    public static final String ERROR_READING_TOAST_MSG = "Error occured while reading values from ";
+    public static final String MUST_HAVE_API_19 = "Must have API 19 or higher!";
+    public static final String MUST_HAVE_API_18 = "Must have API 18 or higher!";
+    public static final String MUST_HAVE_API_14 = "Must have API 14 or higher!";
+
     private View rootView;
     private SensorManager mySensorManager;
 
@@ -46,7 +51,6 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private Sensor mySensorMagnetic;
     //private Sensor mySensorTemperature;
     private Sensor mySensorAmbientTemperature;
-    //private Sensor mySensorSignificantMotion;
     //private TriggerEventListener mTriggerEventListener;
     private Sensor mySensorStepCounter;
     private int stepsThisApp = 0;
@@ -55,6 +59,7 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private Sensor mySensorSignificantMotion;
     private SignificantMotionTriggerListener mSignificantMotionListener;
 
+    private TextView availableSensors;
     private TextView accTextView01;
     private TextView accTextView02;
     private TextView accTextView03;
@@ -82,11 +87,13 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private TextView orientationTextView03;
     private TextView pressureTextView;
     private TextView ambientTemperatureTextView;
-    private TextView microphoneTextView;
+    private TextView microphone01TextView;
+    private TextView microphone02TextView;
     private TextView batteryTextView01;
     private TextView batteryTextView02;
     private TextView batteryTextView03;
     private TextView batteryTextView04;
+    private TextView batteryTextView05;
     private TextView stepCounterTextView01;
     private TextView stepCounterTextView02;
     private TextView stepDetector01;
@@ -96,23 +103,41 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private float[] mGravity;
     private float[] mGeomagnetic;
 
+    private File mCurrentBatteryFile;
+    private File mResistanceBatteryFile;
+    private File mUeventBatteryFile;
+    private File mTempBatteryFile;
+    private File mVoltageBatteryFile;
+    private Handler batteryThreadHandler = new Handler();
+    private BatteryThread batteryThread = new BatteryThread();
+    private boolean isFirst;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.accelerometer_layout, container, false);
-        mySensorManager = (SensorManager) getActivity().getSystemService(getActivity().SENSOR_SERVICE);
+        mySensorManager = (SensorManager) getActivity().getSystemService(FragmentActivity.SENSOR_SERVICE);
 
         //disable screen lock
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        InitializeSensors();
         InitializeViews();
+        InitializeSensors();
 
-        getActivity().registerReceiver(batteryBroadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        assignBatteryFiles();
+
         mSignificantMotionListener = new SignificantMotionTriggerListener(this.getActivity(), significantMotion);
+        batteryThreadHandler.post(batteryThread);
 
         return rootView;
+    }
+
+    private void assignBatteryFiles(){
+        mCurrentBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_CURRENT_FILE);
+        mResistanceBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_RESISTANCE_FILE);
+        mTempBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_TEMP_FILE);
+        mUeventBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_UEVENT_FILE);
+        mVoltageBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_VOLTAGE_FILE);
     }
 
     private void InitializeSensors(){
@@ -124,15 +149,32 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         mySensorLight = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mySensorProximity = mySensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         mySensorMagnetic = mySensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        //mySensorTemperature = mySensorManager.getDefaultSensor(Sensor.TYPE_TEMPERATURE);
-        mySensorAmbientTemperature = mySensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        //mySensorSignificantMotion = mySensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
-        mySensorStepCounter = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        mySensorStepDetector = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        mySensorSignificantMotion = mySensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
+        if(Build.VERSION.SDK_INT >= 14){
+            mySensorAmbientTemperature = mySensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        }
+        else{
+            ambientTemperatureTextView.setText(MUST_HAVE_API_14);
+        }
+        if(Build.VERSION.SDK_INT >= 19){
+            mySensorStepCounter = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+            mySensorStepDetector = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        }
+        else{
+            stepDetector01.setText(MUST_HAVE_API_19);
+            stepCounterTextView01.setText(MUST_HAVE_API_19);
+        }
+        if(Build.VERSION.SDK_INT >= 18){
+            mySensorSignificantMotion = mySensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
+        }
+        else{
+            significantMotion.setText(MUST_HAVE_API_18);
+        }
     }
 
     private void InitializeViews(){
+        availableSensors = (TextView) rootView.findViewById(R.id.id_available_sensors);
+        availableSensors.setText("Your API: " + Build.VERSION.SDK_INT + ", Android " + Build.VERSION.RELEASE);
+
         accTextView01 = (TextView) rootView.findViewById(R.id.text_accelerometer01);
         accTextView02 = (TextView) rootView.findViewById(R.id.text_accelerometer02);
         accTextView03 = (TextView) rootView.findViewById(R.id.text_accelerometer03);
@@ -164,7 +206,10 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         batteryTextView02 = (TextView) rootView.findViewById(R.id.text_battery02);
         batteryTextView03 = (TextView) rootView.findViewById(R.id.text_battery03);
         batteryTextView04 = (TextView) rootView.findViewById(R.id.text_battery04);
-        microphoneTextView = (TextView) rootView.findViewById(R.id.text_microphone01);
+        batteryTextView05 = (TextView) rootView.findViewById(R.id.text_battery05);
+        microphone02TextView = (TextView) rootView.findViewById(R.id.text_microphone01);
+        microphone01TextView = (TextView) rootView.findViewById(R.id.textView60);
+        microphone01TextView.setText("Battery Refresh Delay: " + BATTERY_REFRESH_TIME + "ms");
         stepCounterTextView01 = (TextView) rootView.findViewById(R.id.text_stepcounter01);
         stepCounterTextView02 = (TextView) rootView.findViewById(R.id.text_stepcounter02);
         stepDetector01 = (TextView) rootView.findViewById(R.id.text_stepdetector01);
@@ -253,37 +298,12 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         }
     }
 
-    private BroadcastReceiver batteryBroadcastReceiver = new BroadcastReceiver()
-    {
-        public void onReceive(Context context, Intent intent)
-        {
-            int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-            int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-            int status2 = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-            int voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
-            int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
-            int health = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, -1);
-            int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-
-            int level = -1;
-            if (currentLevel >= 0 && scale > 0) {
-                level = (currentLevel * 100) / scale;
-            }
-            batteryTextView01.setText("Battery Level Remaining: " + level + "%");
-            batteryTextView02.setText("current level " + currentLevel +
-                    " from " + scale);
-            batteryTextView03.setText("status " + status2 + ", health " + health + ", plugged " + plugged);
-            batteryTextView04.setText("voltage " + voltage + ", temperature " + ((float) temperature)/10 + "°C");
-        }
-    };
-
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
     public void onResume() {
         super.onResume();
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        getActivity().registerReceiver(batteryBroadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         mySensorManager.registerListener(this, mySensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorLinearAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorRotationVector, SensorManager.SENSOR_DELAY_NORMAL);
@@ -293,21 +313,91 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         mySensorManager.registerListener(this, mySensorProximity, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorMagnetic, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorAmbientTemperature, SensorManager.SENSOR_DELAY_NORMAL);
-        mySensorManager.registerListener(this, mySensorStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
-        mySensorManager.registerListener(this, mySensorStepDetector, SensorManager.SENSOR_DELAY_NORMAL);
-        if(mySensorSignificantMotion != null
-                && mySensorManager.requestTriggerSensor(mSignificantMotionListener, mySensorSignificantMotion)){
-            significantMotion.setText("SignificantMotion ENABLED (Waiting..)\n");
+        if(Build.VERSION.SDK_INT >= 19){
+            mySensorManager.registerListener(this, mySensorStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
+            mySensorManager.registerListener(this, mySensorStepDetector, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        if(Build.VERSION.SDK_INT >= 18){
+            if(mySensorSignificantMotion != null
+                    && mySensorManager.requestTriggerSensor(mSignificantMotionListener, mySensorSignificantMotion)) {
+                significantMotion.setText("SignificantMotion ENABLED (Waiting..)\n");
+            }
         }
     }
 
     public void onPause() {
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onPause();
-        getActivity().unregisterReceiver(batteryBroadcastReceiver);
         mySensorManager.unregisterListener(this);
-        if(mySensorSignificantMotion != null){
-            mySensorManager.cancelTriggerSensor(mSignificantMotionListener, mySensorSignificantMotion);
+        if(Build.VERSION.SDK_INT >= 18){
+            if(mySensorSignificantMotion != null){
+                mySensorManager.cancelTriggerSensor(mSignificantMotionListener, mySensorSignificantMotion);
+            }
+        }
+    }
+
+    public String getCounter(){
+        if(isFirst){
+            isFirst = !isFirst;
+            return "RAZ";
+        }
+        else{
+            isFirst = !isFirst;
+            return "DVA";
+        }
+    }
+
+    private class BatteryThread implements Runnable {
+        public void run() {
+            microphone02TextView.setText(getCounter());
+            try {
+                BufferedReader brCurrent = new BufferedReader(new FileReader(mCurrentBatteryFile));
+                batteryTextView02.setText("Current: " + String.valueOf(((float) Integer.parseInt(brCurrent.readLine())) / 1000) + "mA");
+                brCurrent.close();
+            }
+            catch (IOException e) {
+                batteryTextView02.setText(ERROR_READING_TOAST_MSG + BATTERY_STATUS_PATH + "/" + BATTERY_CURRENT_FILE);
+            }
+            try{
+                BufferedReader brResistance = new BufferedReader(new FileReader(mResistanceBatteryFile));
+                batteryTextView04.setText("Resistance: " + String.valueOf(((float) Integer.parseInt(brResistance.readLine())) / 1000) + "mΩ");
+                brResistance.close();
+            }
+            catch (IOException e) {
+                batteryTextView04.setText(ERROR_READING_TOAST_MSG + BATTERY_STATUS_PATH + "/" + BATTERY_UEVENT_FILE);
+            }
+            try{
+                BufferedReader brTemp = new BufferedReader(new FileReader(mTempBatteryFile));
+                batteryTextView03.setText("Temperature: " + String.valueOf(((float) Integer.parseInt(brTemp.readLine())) * 0.1) + "°C");
+                brTemp.close();
+            }
+            catch (IOException e) {
+                batteryTextView03.setText(ERROR_READING_TOAST_MSG + BATTERY_STATUS_PATH + "/" + BATTERY_TEMP_FILE);
+            }
+            try{
+                BufferedReader brVoltage = new BufferedReader(new FileReader(mVoltageBatteryFile));
+                batteryTextView01.setText("Voltage: " + String.valueOf(((float) Integer.parseInt(brVoltage.readLine())) / 1000) + "mV");
+                brVoltage.close();
+            }
+            catch (IOException e) {
+                batteryTextView01.setText(ERROR_READING_TOAST_MSG + BATTERY_STATUS_PATH + "/" + BATTERY_VOLTAGE_FILE);
+            }
+            try{
+                BufferedReader brUevent = new BufferedReader(new FileReader(mUeventBatteryFile));
+                String line;
+                StringBuilder str = new StringBuilder();
+                while ((line = brUevent.readLine()) != null){
+                    str.append(line);
+                    str.append("\n");
+                }
+                batteryTextView05.setText(str.toString());
+                brUevent.close();
+            }
+            catch (IOException e) {
+                batteryTextView05.setText(ERROR_READING_TOAST_MSG + BATTERY_STATUS_PATH + "/" + BATTERY_UEVENT_FILE);
+            }
+
+            batteryThreadHandler.postDelayed(batteryThread, BATTERY_REFRESH_TIME);
         }
     }
 }

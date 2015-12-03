@@ -911,17 +911,24 @@
                 android:layout_below="@+id/text_battery03"
                 android:text="@string/number_example" />
 
-            <!--MICROPHONE-->
+            <TextView
+                android:id="@+id/text_battery05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/text_battery04"
+                android:text="@string/number_example" />
+
+            <!--BATTERY REFRESH-->
             <TextView
                 android:id="@+id/textView60"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/text_battery04"
-                android:layout_marginTop="20dp"
-                android:text="@string/title_microphone"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_below="@+id/text_battery05"
+                android:layout_marginTop="20dp"/>
 
             <TextView
                 android:id="@+id/text_microphone01"

@@ -1,28 +1,24 @@
 package com.ondro.randomizer;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private RotationVectorFragment myRotationVectorFragment;
+    public static final int BACKGROUND_FRAGMENT_ID = 3;
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -46,6 +42,10 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        if(getIntent().getAction().equals(BackgroundFragmentAsync.OPEN_BACKGROUND_FRAGMENT)){
+            mNavigationDrawerFragment.selectItem(BACKGROUND_FRAGMENT_ID);
+        }
     }
 
     @Override
@@ -54,14 +54,16 @@ public class MainActivity extends AppCompatActivity
 
         switch(position){
             case 0:
-                myRotationVectorFragment = new RotationVectorFragment();
-                objFragment = myRotationVectorFragment;
+                objFragment = new AvailableSensorFragment();
                 break;
             case 1:
                 objFragment = new AccelerometerFragment();
                 break;
             case 2:
-                objFragment = new AvailableSensorFragment();
+                objFragment = new RotationVectorFragment();
+                break;
+            case BACKGROUND_FRAGMENT_ID:
+                objFragment = new BackgroundFragmentAsync();
                 break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -69,15 +71,6 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.container, objFragment)
                 .commit();
     }
-
-    /*@Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-    }*/
 
     public void onSectionAttached(int number) {
         switch (number) {
@@ -90,6 +83,9 @@ public class MainActivity extends AppCompatActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
         }
     }
 
@@ -99,6 +95,7 @@ public class MainActivity extends AppCompatActivity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
+
 
 
     @Override
@@ -127,15 +124,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onCaptureClick(View view) {
-        if(myRotationVectorFragment != null){
-            myRotationVectorFragment.onCaptureClick(view);
-        }
-        else{
-            Toast.makeText(this, "myRotationVectorFragment is null", Toast.LENGTH_SHORT);
-        }
     }
 
     /**

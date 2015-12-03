@@ -2,9 +2,6 @@ package com.ondro.randomizer;
 
 import android.annotation.TargetApi;
 import android.hardware.Camera;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
@@ -16,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,7 +24,7 @@ import java.util.List;
 /**
  * Created by Ondro on 27-Oct-15.
  */
-public class RotationVectorFragment extends Fragment {
+public class RotationVectorFragment extends Fragment implements OnClickListener {
     private View rootView;
     private static final String TAG = "CapturingFragment";
 
@@ -49,16 +47,25 @@ public class RotationVectorFragment extends Fragment {
     private void InitializeViews(){
         mPreview = (TextureView) rootView.findViewById(R.id.surface_view);
         captureButton = (Button) rootView.findViewById(R.id.button_capture);
+
+        captureButton.setOnClickListener(this);
+    }
+
+    public void onClick(View src){
+        switch(src.getId()){
+            case R.id.button_capture:
+                onCaptureClick();
+                break;
+        }
     }
 
     /**
      * The capture button controls all user interaction. When recording, the button click
      * stops recording, releases {@link android.media.MediaRecorder} and {@link android.hardware.Camera}. When not recording,
      * it prepares the {@link android.media.MediaRecorder} and starts recording.
-     *
-     * @param view the view generating the event.
      */
-    public void onCaptureClick(View view) {
+    //public void onCaptureClick(View view) {
+    public void onCaptureClick() {
         if (isRecording) {
             // BEGIN_INCLUDE(stop_release_media_recorder)
 
