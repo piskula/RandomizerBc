@@ -47,7 +47,6 @@ public class BackgroundFragmentAsync extends BaseSensorFragment implements OnCli
 
     private Button btnStart;
     private Button btnCancel;
-    //private Button btnCreate;
     private ProgressBar progressBar;
     private TextView tvFile;
     private TextView tvPer;
@@ -97,14 +96,11 @@ public class BackgroundFragmentAsync extends BaseSensorFragment implements OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        //mySensorManager = (SensorManager) getActivity().getSystemService(FragmentActivity.SENSOR_SERVICE);
-        //super.InitializeSensors();
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.background_fragment_async, container, false);
 
             btnStart = (Button) rootView.findViewById(R.id.btnstart);
             btnCancel = (Button) rootView.findViewById(R.id.btncancel);
-            //btnCreate = (Button) rootView.findViewById(R.id.btncreate);
             progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
             tvFile = (TextView) rootView.findViewById(R.id.tv1);
             tvPer = (TextView) rootView.findViewById(R.id.tvper);
@@ -122,7 +118,6 @@ public class BackgroundFragmentAsync extends BaseSensorFragment implements OnCli
 
             btnStart.setOnClickListener(this);
             btnCancel.setOnClickListener(this);
-            //btnCreate.setOnClickListener(this);
             tvPer.setText(STREAMING_STOP);
             tvFile.setText("output file name");
             spinnerTime.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, times));
@@ -187,18 +182,6 @@ public class BackgroundFragmentAsync extends BaseSensorFragment implements OnCli
             case Sensor.TYPE_PRESSURE:
                 pressureTextView = event.values[0];
                 break;
-            //case Sensor.TYPE_STEP_COUNTER:
-            //    if(stepsThisApp < 1){
-            //        stepsThisApp = (int) event.values[0];
-            //    }
-            //    stepCounterTextView01 = (int) event.values[0];
-            //    stepCounterTextView02 = ((int) event.values[0] - stepsThisApp);
-            //    break;
-            //case Sensor.TYPE_STEP_DETECTOR:
-            //    stepsDetectedThisApp++;
-            //    //stepDetector01.append("|x");
-            //    stepDetector02 = stepsDetectedThisApp;
-            //    break;
         }
     }
 
@@ -232,35 +215,17 @@ public class BackgroundFragmentAsync extends BaseSensorFragment implements OnCli
         mySensorManager.registerListener(this, mySensorProximity, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorMagnetic, SensorManager.SENSOR_DELAY_NORMAL);
         mySensorManager.registerListener(this, mySensorAmbientTemperature, SensorManager.SENSOR_DELAY_NORMAL);
-        //if(Build.VERSION.SDK_INT >= 19){
-        //    mySensorManager.registerListener(this, mySensorStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
-        //    mySensorManager.registerListener(this, mySensorStepDetector, SensorManager.SENSOR_DELAY_NORMAL);
-        //}
-        //if(Build.VERSION.SDK_INT >= 18){
-        //    if(mySensorSignificantMotion != null
-        //            && mySensorManager.requestTriggerSensor(mSignificantMotionListener, mySensorSignificantMotion)) {
-        //        significantMotion.setText("SignificantMotion ENABLED (Waiting..)\n");
-        //    }
-        //}
     }
 
     public void onPause() {
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onPause();
-        //mySensorManager.unregisterListener(this);
-        //if(Build.VERSION.SDK_INT >= 18){
-        //    if(mySensorSignificantMotion != null){
-        //        mySensorManager.cancelTriggerSensor(mSignificantMotionListener, mySensorSignificantMotion);
-        //    }
-        //}
     }
 
     public void onClick(View src){
         switch(src.getId()){
             case R.id.btnstart:
                 if(objMyTask == null || objMyTask.isCancelled() || objMyTask.getStatus().equals(AsyncTask.Status.FINISHED)){
-                    //Toast.makeText(context, "First create some Task", Toast.LENGTH_SHORT).show();
-                    //break;
                     String fileTitle = getTitle();
                     BufferedWriter bw;
                     try{
@@ -279,33 +244,6 @@ public class BackgroundFragmentAsync extends BaseSensorFragment implements OnCli
                     btnCancel.setEnabled(true);
                 }
                 break;
-                //if(objMyTask.isCancelled()){
-                //    Toast.makeText(context, "Must Create New One", Toast.LENGTH_SHORT).show();
-                //    break;
-                //}
-                //if(objMyTask.getStatus().equals(AsyncTask.Status.RUNNING)){
-                //    Toast.makeText(context, "Still Running", Toast.LENGTH_SHORT).show();
-                //    break;
-                //}
-                //if(objMyTask.getStatus().equals(AsyncTask.Status.FINISHED)){
-                //    Toast.makeText(context, "Done! Create New One", Toast.LENGTH_SHORT).show();
-                //    break;
-                //}
-
-                //String fileTitle = getTitle();
-                //BufferedWriter bw;
-                //try{
-                //    bw = new BufferedWriter(new FileWriter(new File(
-                //            context.getExternalFilesDir(null), fileTitle), true));
-                //}
-                //catch(IOException e){
-                //    e.printStackTrace();
-                //    Toast.makeText(context, "Can't open BufferedWriter", Toast.LENGTH_SHORT).show();
-                //    break;
-                //}
-                //tvFile.setText("saving to: " + fileTitle);
-                //objMyTask.execute(bw);
-               //break;
             case R.id.btncancel:
                 if(!objMyTask.getStatus().equals(AsyncTask.Status.RUNNING)){
                     Toast.makeText(context, "Nothing running", Toast.LENGTH_SHORT).show();
@@ -315,11 +253,6 @@ public class BackgroundFragmentAsync extends BaseSensorFragment implements OnCli
                 btnStart.setEnabled(true);
                 btnCancel.setEnabled(false);
                 break;
-            //case R.id.btncreate:
-            //    if(objMyTask == null || objMyTask.isCancelled()
-            //            || objMyTask.getStatus().equals(AsyncTask.Status.FINISHED))
-            //        objMyTask = new MyBackgroundTask();
-            //    break;
         }
     }
 

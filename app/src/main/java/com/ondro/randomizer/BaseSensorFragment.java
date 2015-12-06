@@ -26,9 +26,6 @@ public class BaseSensorFragment extends Fragment {
     public static final String BATTERY_VOLTAGE_FILE = "voltage_now";
 
     public static final String ERROR_READING_TOAST_MSG = "Error occured while reading values from ";
-    public static final String MUST_HAVE_API_19 = "Must have API 19 or higher!";
-    public static final String MUST_HAVE_API_18 = "Must have API 18 or higher!";
-    public static final String MUST_HAVE_API_14 = "Must have API 14 or higher!";
 
     protected SensorManager mySensorManager;
 
@@ -76,7 +73,7 @@ public class BaseSensorFragment extends Fragment {
         mVoltageBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_VOLTAGE_FILE);
     }
 
-    public void InitializeSensors(){
+    private void InitializeSensors(){
         mySensorAccelerometer = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mySensorLinearAccelerometer = mySensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mySensorRotationVector = mySensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -88,23 +85,13 @@ public class BaseSensorFragment extends Fragment {
         if(Build.VERSION.SDK_INT >= 14){
             mySensorAmbientTemperature = mySensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         }
-        //else{
-        //    ambientTemperatureTextView.setText(MUST_HAVE_API_14);
-        //}
         if(Build.VERSION.SDK_INT >= 19){
             mySensorStepCounter = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
             mySensorStepDetector = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         }
-        //else{
-        //    stepDetector01.setText(MUST_HAVE_API_19);
-        //    stepCounterTextView01.setText(MUST_HAVE_API_19);
-        //}
         if(Build.VERSION.SDK_INT >= 18){
             mySensorSignificantMotion = mySensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
         }
-        //else{
-        //    significantMotion.setText(MUST_HAVE_API_18);
-        //}
     }
 
     //Return different String to see how fast are changes displayed

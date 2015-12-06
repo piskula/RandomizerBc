@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +28,6 @@ import java.io.IOException;
 public class AccelerometerFragment extends BaseSensorFragment implements SensorEventListener {
     private View rootView;
 
-    private TextView availableSensors;
     private TextView accTextView01;
     private TextView accTextView02;
     private TextView accTextView03;
@@ -55,13 +55,12 @@ public class AccelerometerFragment extends BaseSensorFragment implements SensorE
     private TextView orientationTextView03;
     private TextView pressureTextView;
     private TextView ambientTemperatureTextView;
-    private TextView microphone01TextView;
-    private TextView microphone02TextView;
     private TextView batteryTextView01;
     private TextView batteryTextView02;
     private TextView batteryTextView03;
     private TextView batteryTextView04;
     private TextView batteryTextView05;
+    private TextView batteryRefreshTextView;
     private TextView stepCounterTextView01;
     private TextView stepCounterTextView02;
     private TextView stepDetector01;
@@ -74,7 +73,9 @@ public class AccelerometerFragment extends BaseSensorFragment implements SensorE
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        //super.InitializeBaseSensorFragment();
+        if(savedInstanceState != null){
+            Toast.makeText(getActivity(), "instance loaded", Toast.LENGTH_SHORT).show();
+        }
         rootView = inflater.inflate(R.layout.accelerometer_layout, container, false);
 
         //disable screen lock
@@ -89,6 +90,9 @@ public class AccelerometerFragment extends BaseSensorFragment implements SensorE
     }
 
     private void InitializeViews(){
+        TextView availableSensors;
+        TextView batteryDelayTextView;
+
         availableSensors = (TextView) rootView.findViewById(R.id.id_available_sensors);
         availableSensors.setText("Your API: " + Build.VERSION.SDK_INT + ", Android " + Build.VERSION.RELEASE);
 
@@ -124,9 +128,9 @@ public class AccelerometerFragment extends BaseSensorFragment implements SensorE
         batteryTextView03 = (TextView) rootView.findViewById(R.id.text_battery03);
         batteryTextView04 = (TextView) rootView.findViewById(R.id.text_battery04);
         batteryTextView05 = (TextView) rootView.findViewById(R.id.text_battery05);
-        microphone02TextView = (TextView) rootView.findViewById(R.id.text_microphone01);
-        microphone01TextView = (TextView) rootView.findViewById(R.id.textView60);
-        microphone01TextView.setText("Battery Refresh Delay: " + BATTERY_REFRESH_TIME + "ms");
+        batteryRefreshTextView = (TextView) rootView.findViewById(R.id.text_microphone01);
+        batteryDelayTextView = (TextView) rootView.findViewById(R.id.textView60);
+        batteryDelayTextView.setText("Battery Refresh Delay: " + BATTERY_REFRESH_TIME + "ms");
         stepCounterTextView01 = (TextView) rootView.findViewById(R.id.text_stepcounter01);
         stepCounterTextView02 = (TextView) rootView.findViewById(R.id.text_stepcounter02);
         stepDetector01 = (TextView) rootView.findViewById(R.id.text_stepdetector01);
@@ -257,7 +261,7 @@ public class AccelerometerFragment extends BaseSensorFragment implements SensorE
     private class BatteryThread implements Runnable {
 
         public void run() {
-            microphone02TextView.setText(getCounter());
+            batteryRefreshTextView.setText(getCounter());
             try {
                 BufferedReader brCurrent = new BufferedReader(new FileReader(mCurrentBatteryFile));
                 batteryTextView02.setText("Current: " + String.valueOf(((float) Integer.parseInt(brCurrent.readLine())) / 1000) + "mA");

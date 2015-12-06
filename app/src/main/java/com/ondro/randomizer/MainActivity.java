@@ -1,7 +1,11 @@
 package com.ondro.randomizer;
 
 import android.app.Activity;
-import android.os.Handler;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -46,6 +50,15 @@ public class MainActivity extends AppCompatActivity
         //if(getIntent().getAction().equals(BackgroundFragmentAsync.OPEN_BACKGROUND_FRAGMENT)){
         //    mNavigationDrawerFragment.selectItem(BACKGROUND_FRAGMENT_ID);
         //}
+
+        /*
+        Intent alarm = new Intent(context, AlarmReceiver.class);
+        boolean alarmRunning = (PendingIntent.getBroadcast(context, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+        if(alarmRunning == false) {
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarm, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 1000, pendingIntent);
+        }*/
     }
 
     @Override
