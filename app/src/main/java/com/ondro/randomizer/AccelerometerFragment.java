@@ -24,40 +24,8 @@ import java.io.IOException;
 /**
  * Created by Ondro on 27-Oct-15.
  */
-public class AccelerometerFragment extends Fragment implements SensorEventListener {
-    public static final long BATTERY_REFRESH_TIME = 300;
-    public static final String BATTERY_STATUS_PATH = "/sys/class/power_supply/battery";
-    public static final String BATTERY_CURRENT_FILE = "current_now";
-    public static final String BATTERY_RESISTANCE_FILE = "resistance";
-    public static final String BATTERY_UEVENT_FILE = "uevent";
-    public static final String BATTERY_TEMP_FILE = "temp";
-    public static final String BATTERY_VOLTAGE_FILE = "voltage_now";
-
-    public static final String ERROR_READING_TOAST_MSG = "Error occured while reading values from ";
-    public static final String MUST_HAVE_API_19 = "Must have API 19 or higher!";
-    public static final String MUST_HAVE_API_18 = "Must have API 18 or higher!";
-    public static final String MUST_HAVE_API_14 = "Must have API 14 or higher!";
-
+public class AccelerometerFragment extends BaseSensorFragment implements SensorEventListener {
     private View rootView;
-    private SensorManager mySensorManager;
-
-    private Sensor mySensorAccelerometer;
-    private Sensor mySensorLinearAccelerometer;
-    private Sensor mySensorRotationVector;
-    private Sensor mySensorGravity;
-    private Sensor mySensorGyroscope;
-    private Sensor mySensorLight;
-    private Sensor mySensorProximity;
-    private Sensor mySensorMagnetic;
-    //private Sensor mySensorTemperature;
-    private Sensor mySensorAmbientTemperature;
-    //private TriggerEventListener mTriggerEventListener;
-    private Sensor mySensorStepCounter;
-    private int stepsThisApp = 0;
-    private int stepsDetectedThisApp = 0;
-    private Sensor mySensorStepDetector;
-    private Sensor mySensorSignificantMotion;
-    private SignificantMotionTriggerListener mSignificantMotionListener;
 
     private TextView availableSensors;
     private TextView accTextView01;
@@ -100,75 +68,24 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
     private TextView stepDetector02;
     private TextView significantMotion;
 
-    private float[] mGravity;
-    private float[] mGeomagnetic;
-
-    private File mCurrentBatteryFile;
-    private File mResistanceBatteryFile;
-    private File mUeventBatteryFile;
-    private File mTempBatteryFile;
-    private File mVoltageBatteryFile;
-    private Handler batteryThreadHandler = new Handler();
     private BatteryThread batteryThread = new BatteryThread();
-    private boolean isFirst;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        //super.InitializeBaseSensorFragment();
         rootView = inflater.inflate(R.layout.accelerometer_layout, container, false);
-        mySensorManager = (SensorManager) getActivity().getSystemService(FragmentActivity.SENSOR_SERVICE);
 
         //disable screen lock
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         InitializeViews();
-        InitializeSensors();
-
-        assignBatteryFiles();
 
         mSignificantMotionListener = new SignificantMotionTriggerListener(this.getActivity(), significantMotion);
         batteryThreadHandler.post(batteryThread);
 
         return rootView;
-    }
-
-    private void assignBatteryFiles(){
-        mCurrentBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_CURRENT_FILE);
-        mResistanceBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_RESISTANCE_FILE);
-        mTempBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_TEMP_FILE);
-        mUeventBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_UEVENT_FILE);
-        mVoltageBatteryFile = new File(BATTERY_STATUS_PATH, BATTERY_VOLTAGE_FILE);
-    }
-
-    private void InitializeSensors(){
-        mySensorAccelerometer = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mySensorLinearAccelerometer = mySensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        mySensorRotationVector = mySensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-        mySensorGravity = mySensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        mySensorGyroscope = mySensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        mySensorLight = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        mySensorProximity = mySensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        mySensorMagnetic = mySensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        if(Build.VERSION.SDK_INT >= 14){
-            mySensorAmbientTemperature = mySensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        }
-        else{
-            ambientTemperatureTextView.setText(MUST_HAVE_API_14);
-        }
-        if(Build.VERSION.SDK_INT >= 19){
-            mySensorStepCounter = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-            mySensorStepDetector = mySensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        }
-        else{
-            stepDetector01.setText(MUST_HAVE_API_19);
-            stepCounterTextView01.setText(MUST_HAVE_API_19);
-        }
-        if(Build.VERSION.SDK_INT >= 18){
-            mySensorSignificantMotion = mySensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
-        }
-        else{
-            significantMotion.setText(MUST_HAVE_API_18);
-        }
     }
 
     private void InitializeViews(){
@@ -218,6 +135,7 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         significantMotion = (TextView) rootView.findViewById(R.id.text_significantmotion01);
     }
 
+    @Override
     public void onSensorChanged(SensorEvent event){
         switch (event.sensor.getType()){
             case Sensor.TYPE_ACCELEROMETER:
@@ -336,18 +254,8 @@ public class AccelerometerFragment extends Fragment implements SensorEventListen
         }
     }
 
-    public String getCounter(){
-        if(isFirst){
-            isFirst = !isFirst;
-            return "RAZ";
-        }
-        else{
-            isFirst = !isFirst;
-            return "DVA";
-        }
-    }
-
     private class BatteryThread implements Runnable {
+
         public void run() {
             microphone02TextView.setText(getCounter());
             try {

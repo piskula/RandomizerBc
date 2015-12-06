@@ -36,7 +36,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="spinner_time_prompt">Time of Streaming</string>
-    <string name="spinner_interval_prompt">Interval</string>
+    <string name="spinner_interval_prompt">Interval (every)</string>
 
     <string name="action_example">Example action</string>
     <string name="btnCapture">capture</string>

@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        if(getIntent().getAction().equals(BackgroundFragmentAsync.OPEN_BACKGROUND_FRAGMENT)){
-            mNavigationDrawerFragment.selectItem(BACKGROUND_FRAGMENT_ID);
-        }
+        //if(getIntent().getAction().equals(BackgroundFragmentAsync.OPEN_BACKGROUND_FRAGMENT)){
+        //    mNavigationDrawerFragment.selectItem(BACKGROUND_FRAGMENT_ID);
+        //}
     }
 
     @Override
