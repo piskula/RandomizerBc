@@ -50,15 +50,6 @@ public class MainActivity extends AppCompatActivity
         //if(getIntent().getAction().equals(BackgroundFragmentAsync.OPEN_BACKGROUND_FRAGMENT)){
         //    mNavigationDrawerFragment.selectItem(BACKGROUND_FRAGMENT_ID);
         //}
-
-        /*
-        Intent alarm = new Intent(context, AlarmReceiver.class);
-        boolean alarmRunning = (PendingIntent.getBroadcast(context, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-        if(alarmRunning == false) {
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarm, 0);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 1000, pendingIntent);
-        }*/
     }
 
     @Override

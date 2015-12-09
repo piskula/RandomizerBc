@@ -10,6 +10,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by Ondro on 06-Dec-15.
@@ -43,9 +45,12 @@ public class MyService extends Service{
 
     private Runnable myTask = new Runnable() {
         public void run() {
-            // Do something here
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Calendar cal = Calendar.getInstance();
             try{
-                bw.append("hopa\n");
+                bw.append(dateFormat.format(cal.getTime()));
+                bw.append("." + cal.get(Calendar.MILLISECOND));
+                bw.append("\n");
                 bw.flush();
             }
             catch(IOException e){

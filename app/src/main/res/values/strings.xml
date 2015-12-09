@@ -38,7 +38,10 @@
     <string name="spinner_time_prompt">Time of Streaming</string>
     <string name="spinner_interval_prompt">Interval (every)</string>
 
-    <string name="action_example">Example action</string>
+    <string name="btn_running">Stop Streaming</string>
+    <string name="btn_stopped">Start Stream</string>
+
+    <string name="action_example">Set Up Streaming</string>
     <string name="btnCapture">capture</string>
 
     <string name="action_settings">Settings</string>
