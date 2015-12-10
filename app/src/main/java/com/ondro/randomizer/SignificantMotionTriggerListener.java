@@ -15,7 +15,7 @@ public class SignificantMotionTriggerListener extends TriggerEventListener {
     private Context mContext;
     private TextView mTextView;
 
-    SignificantMotionTriggerListener(Context context, TextView textView) {
+    public SignificantMotionTriggerListener(Context context, TextView textView) {
         mContext = context;
         mTextView = textView;
     }

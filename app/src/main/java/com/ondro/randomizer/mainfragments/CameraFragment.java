@@ -1,4 +1,4 @@
-package com.ondro.randomizer;
+package com.ondro.randomizer.mainfragments;
 
 import android.annotation.TargetApi;
 import android.hardware.Camera;
@@ -18,13 +18,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ondro.randomizer.CameraHelper;
+import com.ondro.randomizer.R;
+
 import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by Ondro on 27-Oct-15.
  */
-public class RotationVectorFragment extends Fragment implements OnClickListener {
+public class CameraFragment extends Fragment implements OnClickListener {
     private View rootView;
     private static final String TAG = "CapturingFragment";
 

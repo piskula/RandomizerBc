@@ -1,11 +1,6 @@
 package com.ondro.randomizer;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -17,6 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+
+import com.ondro.randomizer.mainfragments.LiveValuesFragment;
+import com.ondro.randomizer.mainfragments.AvailableSensorFragment;
+import com.ondro.randomizer.mainfragments.CameraFragment;
+import com.ondro.randomizer.streaming.BackgroundFragmentAsync;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -61,10 +61,10 @@ public class MainActivity extends AppCompatActivity
                 objFragment = new AvailableSensorFragment();
                 break;
             case 1:
-                objFragment = new AccelerometerFragment();
+                objFragment = new LiveValuesFragment();
                 break;
             case 2:
-                objFragment = new RotationVectorFragment();
+                objFragment = new CameraFragment();
                 break;
             case BACKGROUND_FRAGMENT_ID:
                 objFragment = new BackgroundFragmentAsync();

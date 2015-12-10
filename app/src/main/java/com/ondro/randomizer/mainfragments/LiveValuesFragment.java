@@ -1,4 +1,4 @@
-package com.ondro.randomizer;
+package com.ondro.randomizer.mainfragments;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -6,10 +6,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +14,17 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ondro.randomizer.R;
+import com.ondro.randomizer.SignificantMotionTriggerListener;
+
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 /**
  * Created by Ondro on 27-Oct-15.
  */
-public class AccelerometerFragment extends BaseSensorFragment implements SensorEventListener {
+public class LiveValuesFragment extends BaseSensorFragment implements SensorEventListener {
     private View rootView;
 
     private TextView accTextView01;

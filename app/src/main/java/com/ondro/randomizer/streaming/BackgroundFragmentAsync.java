@@ -1,4 +1,4 @@
-package com.ondro.randomizer;
+package com.ondro.randomizer.streaming;
 
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -24,6 +24,10 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ondro.randomizer.mainfragments.BaseSensorFragment;
+import com.ondro.randomizer.MainActivity;
+import com.ondro.randomizer.R;
 
 import java.io.BufferedWriter;
 import java.io.File;

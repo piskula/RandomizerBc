@@ -9,4 +9,12 @@
         android:id="@+id/btnService"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WakefulBroadcastReceiver / Service"
+        android:id="@+id/switch_background"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

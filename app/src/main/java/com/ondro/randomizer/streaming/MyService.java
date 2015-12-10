@@ -1,9 +1,10 @@
-package com.ondro.randomizer;
+package com.ondro.randomizer.streaming;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -41,6 +42,7 @@ public class MyService extends Service{
             Toast.makeText(context, "Can't open BufferedWriter", Toast.LENGTH_SHORT).show();
         }
         this.myThread = new Thread(myTask);
+        Log.e("MyService", "Created");
     }
 
     private Runnable myTask = new Runnable() {

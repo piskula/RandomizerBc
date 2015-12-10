@@ -1,4 +1,4 @@
-package com.ondro.randomizer;
+package com.ondro.randomizer.mainfragments;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ondro.randomizer.SignificantMotionTriggerListener;
 
 import java.io.File;
 
