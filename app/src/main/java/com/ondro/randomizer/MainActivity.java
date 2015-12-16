@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import com.ondro.randomizer.mainfragments.LiveValuesFragment;
 import com.ondro.randomizer.mainfragments.AvailableSensorFragment;
 import com.ondro.randomizer.mainfragments.CameraFragment;
-import com.ondro.randomizer.streaming.BackgroundFragmentAsync;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -66,9 +65,6 @@ public class MainActivity extends AppCompatActivity
             case 2:
                 objFragment = new CameraFragment();
                 break;
-            case BACKGROUND_FRAGMENT_ID:
-                objFragment = new BackgroundFragmentAsync();
-                break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -86,9 +82,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
                 break;
         }
     }
