@@ -259,7 +259,6 @@ public class BackgroundFragmentAsync extends BaseSensorFragment implements OnCli
                 break;
         }
     }
-
     private class MyBackgroundTask extends AsyncTask<BufferedWriter, Integer, Void> {
         private Builder mBuilder;
         int freq =  Integer.parseInt(spinnerFreq.getSelectedItem().toString());

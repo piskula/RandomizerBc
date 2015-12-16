@@ -16,6 +16,5 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         Intent background = new Intent(context, RepeatingService.class);
         Log.d(TAG, "Intent -> going to startWakefulService");
         startWakefulService(context, background);
-        //context.startService(background);
     }
 }

@@ -1,6 +1,7 @@
 package com.ondro.randomizer.streaming;
 
 import android.app.AlarmManager;
+import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
@@ -10,13 +11,17 @@ import android.app.Service;
 /**
  * Created by Ondro on 09-Dec-15.
  */
-public class RepeatingService extends Service{
+public class RepeatingService extends IntentService {
+    public RepeatingService(){
+        super("RepeatingService");
+    }
+
     public final String TAG = "RepeatingService";
 
     private Context context;
     private Thread myThread;
     private boolean isRunning;
-    private AlarmManager alarmManager;
+    //private AlarmManager alarmManager;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,7 +41,8 @@ public class RepeatingService extends Service{
         public void run() {
             Log.d(TAG, "Thread Started");
 
-            while(true){
+            int i = 0;
+            while(i < 20){
                 Intent alarm = new Intent(context, MyService.class);
                 startService(alarm);
                 try{
@@ -45,6 +51,7 @@ public class RepeatingService extends Service{
                 catch(InterruptedException e){
                     e.printStackTrace();
                 }
+                //i++;
             }
 
             /*Intent alarm = new Intent(context, MyService.class);
@@ -58,6 +65,7 @@ public class RepeatingService extends Service{
     @Override
     public void onDestroy() {
         this.isRunning = false;
+        //stopSelf();
     }
 
     @Override
@@ -67,5 +75,10 @@ public class RepeatingService extends Service{
             this.myThread.start();
         }
         return START_STICKY;
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent){
+        AlarmReceiver.completeWakefulIntent(intent);
     }
 }
