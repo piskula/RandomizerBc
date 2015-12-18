@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:text="second"
+            android:text="milisecond"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
