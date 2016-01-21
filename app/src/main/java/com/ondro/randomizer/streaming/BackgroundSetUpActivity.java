@@ -41,7 +41,7 @@ public class BackgroundSetUpActivity extends AppCompatActivity implements OnClic
     private Spinner spinnerFreq;
     private static TextView statusText;
     private Integer[] times = new Integer[]{1,3,5,10,15,20,30,45,60,90,120};
-    private Integer[] freq = new Integer[]{50,100,200,500,1000,2000,5000};
+    private Integer[] freq = new Integer[]{10,50,100,200,500,1000};
 
     private static boolean stopThreadFlag;
     private static Thread myThread;
@@ -368,12 +368,14 @@ public class BackgroundSetUpActivity extends AppCompatActivity implements OnClic
     }
 
     private void takeRestForTimeFrom(long miliseconds, long startingPoint){
-        try{
-            Thread.sleep(miliseconds - (System.currentTimeMillis() - startingPoint + 9));
-        }
-        catch(InterruptedException e){
-            e.printStackTrace();
-        }
+        long timeToSleep = miliseconds - (System.currentTimeMillis() - startingPoint + 9);
+        if(timeToSleep > 0)
+            try{
+                Thread.sleep(timeToSleep);
+            }
+            catch(InterruptedException e){
+                e.printStackTrace();
+            }
     }
 
     @Override
