@@ -368,10 +368,11 @@ public class BackgroundSetUpActivity extends AppCompatActivity implements OnClic
     }
 
     private void takeRestForTimeFrom(long miliseconds, long startingPoint){
-        long timeToSleep = miliseconds - (System.currentTimeMillis() - startingPoint + 9);
-        if(timeToSleep > 0)
+        //long timeToSleep = miliseconds - (System.currentTimeMillis() - startingPoint + 9);
+        //if(timeToSleep > 0)
             try{
-                Thread.sleep(timeToSleep);
+        //        Thread.sleep(timeToSleep);
+                Thread.sleep(miliseconds - 1);
             }
             catch(InterruptedException e){
                 e.printStackTrace();
