@@ -1,6 +1,7 @@
 package com.ondro.randomizer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,14 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
+import com.ondro.randomizer.mainfragments.CameraActivity;
 import com.ondro.randomizer.mainfragments.LiveValuesFragment;
 import com.ondro.randomizer.mainfragments.AvailableSensorFragment;
-import com.ondro.randomizer.mainfragments.CameraFragment;
+import com.ondro.randomizer.streaming.BackgroundSetUpActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    public static final int BACKGROUND_FRAGMENT_ID = 3;
+    //public static final int BACKGROUND_FRAGMENT_ID = 3;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -63,13 +65,17 @@ public class MainActivity extends AppCompatActivity
                 objFragment = new LiveValuesFragment();
                 break;
             case 2:
-                objFragment = new CameraFragment();
+                //objFragment = new CameraFragment();
+                Intent i = new Intent(this, CameraActivity.class);
+                startActivity(i);
                 break;
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, objFragment)
-                .commit();
+        if(position != 2){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, objFragment)
+                    .commit();
+        }
     }
 
     public void onSectionAttached(int number) {
