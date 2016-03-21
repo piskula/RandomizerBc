@@ -47,10 +47,6 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        //if(getIntent().getAction().equals(BackgroundFragmentAsync.OPEN_BACKGROUND_FRAGMENT)){
-        //    mNavigationDrawerFragment.selectItem(BACKGROUND_FRAGMENT_ID);
-        //}
     }
 
     @Override
@@ -66,11 +62,15 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 2:
                 //objFragment = new CameraFragment();
-                Intent i = new Intent(this, CameraActivity.class);
-                startActivity(i);
+                Intent i_camera = new Intent(this, CameraActivity.class);
+                startActivity(i_camera);
+                break;
+            case 3:
+                Intent i_audio = new Intent(this, AudioCapture.class);
+                startActivity(i_audio);
                 break;
         }
-        if(position != 2){
+        if(position != 2 && position != 3){
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, objFragment)
@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                break;
+            case 4:
+                mTitle = "SoundRecord";
                 break;
         }
     }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.ondro.randomizer.R;
 
@@ -18,12 +17,17 @@ import java.util.Calendar;
 /**
  * Created by Ondro on 27-Oct-15.
  */
-public class CameraActivity extends Activity {//implements OnClickListener {
+public class CameraActivity extends Activity {
     private static final String TAG = "CameraActivity";
+    private static final int NUMBER_OF_PHOTOS = 20;
+    private static final long PAUSE_BETWEEN_PHOTOS = 100; //in milliseconds
 
     private Camera mCamera = null;
 
     private CameraView mCameraView = null;
+
+    private static int pictureCounter = 0;
+    private static Thread myCameras[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,33 +50,47 @@ public class CameraActivity extends Activity {//implements OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
-            takeScreenshot();
-            Toast.makeText(this, "OK, Captured!", Toast.LENGTH_SHORT);
+            myCameras = new Thread[NUMBER_OF_PHOTOS];
+            for(int i = 0; i < myCameras.length; i++){
+                myCameras[i] = new Thread(myStreamingBackgroundTask);
+                myCameras[i].start();
+                try{
+                    Thread.sleep(PAUSE_BETWEEN_PHOTOS);
+                }
+                catch(InterruptedException e){
+                    e.printStackTrace();
+                    return false;
+                }
+            }
         }
         return true;
     }
 
-    private String getFileTitle(){
+    private String getFileTitle(int count){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         Calendar cal = Calendar.getInstance();
 
-        return dateFormat.format(cal.getTime()) + ".png";
+        return dateFormat.format(cal.getTime()) + "." + cal.getTimeInMillis() + "." + count + ".png";
     }
 
-    private void takeScreenshot() {
+    private Runnable myStreamingBackgroundTask = new Runnable() {
+        @Override
+        public void run() {
+            takeScreenshot(pictureCounter++);
+        }
+    };
+
+    private void takeScreenshot(int count) {
         try{
             Process sh = Runtime.getRuntime().exec("su", null,null);
             OutputStream os = sh.getOutputStream();
-            os.write(("/system/bin/screencap -p " + getExternalFilesDir(null) + "/" + getFileTitle()).getBytes("ASCII"));
+            os.write(("/system/bin/screencap -p " + getExternalFilesDir(null) + "/" + getFileTitle(count)).getBytes("ASCII"));
             os.flush();
             os.close();
             sh.waitFor();
         }
-        catch (IOException e_io){
-            e_io.printStackTrace();
-        }
-        catch(InterruptedException e_in){
-            e_in.printStackTrace();
+        catch (IOException | InterruptedException e){
+            e.printStackTrace();
         }
     }
 }

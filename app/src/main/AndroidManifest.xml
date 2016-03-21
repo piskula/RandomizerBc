@@ -33,6 +33,10 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
         </activity>
+        <activity
+            android:name=".AudioCapture"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
     <receiver android:name="com.ondro.randomizer.mainfragments.LiveValuesFragment">
