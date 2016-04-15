@@ -35,7 +35,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="spinner_time_prompt">Time of Streaming</string>
+    <string name="spinner_time_prompt">Count of Data</string>
     <string name="spinner_interval_prompt">Interval (every)</string>
 
     <string name="btn_running">Stop Streaming</string>

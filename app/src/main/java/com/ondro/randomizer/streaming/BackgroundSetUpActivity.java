@@ -58,7 +58,7 @@ public class BackgroundSetUpActivity extends AppCompatActivity implements OnClic
         btnService = (Button) findViewById(R.id.btnService);
         spinnerTime = (Spinner) findViewById(R.id.spinner_time);
         spinnerFreq = (Spinner) findViewById(R.id.spinner_interval);
-        statusText = (TextView) findViewById(R.id.statusText);
+        statusText = (TextView) findViewById(R.id.status_text1);
 
         btnService.setOnClickListener(this);
         spinnerTime.setAdapter(new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, times));

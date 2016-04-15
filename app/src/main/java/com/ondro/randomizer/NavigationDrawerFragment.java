@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ondro.randomizer.streaming.BackgroundSetUpActivity;
+import com.ondro.randomizer.streaming.BackgroundSetUpActivityEach;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -252,7 +253,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         if (item.getItemId() == R.id.action_example) {
             //Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getActivity(), BackgroundSetUpActivity.class);
+            Intent i = new Intent(getActivity(), BackgroundSetUpActivityEach.class);
             startActivity(i);
             return true;
         }

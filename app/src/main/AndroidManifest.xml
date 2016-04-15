@@ -29,6 +29,10 @@
             android:label="@string/app_name">
         </activity>
         <activity
+            android:name=".streaming.BackgroundSetUpActivityEach"
+            android:label="@string/app_name">
+        </activity>
+        <activity
             android:name=".mainfragments.CameraActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
