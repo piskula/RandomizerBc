@@ -17,12 +17,9 @@ import android.support.v4.widget.DrawerLayout;
 import com.ondro.randomizer.mainfragments.CameraActivity;
 import com.ondro.randomizer.mainfragments.LiveValuesFragment;
 import com.ondro.randomizer.mainfragments.AvailableSensorFragment;
-import com.ondro.randomizer.streaming.BackgroundSetUpActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
-    //public static final int BACKGROUND_FRAGMENT_ID = 3;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -61,7 +58,6 @@ public class MainActivity extends AppCompatActivity
                 objFragment = new LiveValuesFragment();
                 break;
             case 2:
-                //objFragment = new CameraFragment();
                 Intent i_camera = new Intent(this, CameraActivity.class);
                 startActivity(i_camera);
                 break;
@@ -90,7 +86,7 @@ public class MainActivity extends AppCompatActivity
                 mTitle = getString(R.string.title_section3);
                 break;
             case 4:
-                mTitle = "SoundRecord";
+                mTitle = getString(R.string.title_section4);
                 break;
         }
     }

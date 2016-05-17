@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.ondro.randomizer.R;
 
@@ -19,8 +20,8 @@ import java.util.Calendar;
  */
 public class CameraActivity extends Activity {
     private static final String TAG = "CameraActivity";
-    private static final int NUMBER_OF_PHOTOS = 20;
-    private static final long PAUSE_BETWEEN_PHOTOS = 100; //in milliseconds
+    private static final int NUMBER_OF_PHOTOS = 60;
+    private static final long PAUSE_BETWEEN_PHOTOS = 50; //in milliseconds
 
     private Camera mCamera = null;
 
@@ -32,7 +33,7 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rotationvector_layout);
+        setContentView(R.layout.camera_layout);
 
         try{
             mCamera = Camera.open();//you can use open(int) to use different cameras
@@ -61,7 +62,9 @@ public class CameraActivity extends Activity {
                     e.printStackTrace();
                     return false;
                 }
+                Log.d(TAG, "jedu " + i);
             }
+            Toast.makeText(this, "Done", Toast.LENGTH_SHORT);
         }
         return true;
     }
@@ -84,6 +87,7 @@ public class CameraActivity extends Activity {
         try{
             Process sh = Runtime.getRuntime().exec("su", null,null);
             OutputStream os = sh.getOutputStream();
+            Log.d(TAG, getExternalFilesDir(null).toString());
             os.write(("/system/bin/screencap -p " + getExternalFilesDir(null) + "/" + getFileTitle(count)).getBytes("ASCII"));
             os.flush();
             os.close();

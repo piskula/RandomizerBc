@@ -1,22 +1,18 @@
 package com.ondro.randomizer;
 
-import android.content.Context;
 import android.hardware.TriggerEvent;
 import android.hardware.TriggerEventListener;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
  * Created by Ondro on 25-Nov-15.
  */
 public class SignificantMotionTriggerListener extends TriggerEventListener {
-    private Context mContext;
     private TextView mTextView;
 
-    public SignificantMotionTriggerListener(Context context, TextView textView) {
-        mContext = context;
+    public SignificantMotionTriggerListener(TextView textView) {
         mTextView = textView;
     }
 

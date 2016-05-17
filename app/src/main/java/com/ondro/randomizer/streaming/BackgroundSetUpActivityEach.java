@@ -6,7 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.app.FragmentActivity;
@@ -22,8 +21,6 @@ import android.widget.Toast;
 
 import com.ondro.randomizer.R;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -35,7 +32,7 @@ import java.util.Calendar;
  * Created by ondrej.oravcok on 14.4.2016.
  */
 public class BackgroundSetUpActivityEach extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
-    public final String TAG = "BackgroundSetUpActivity";
+    public final String TAG = "BackgroundSetUpActivityEach";
 
     private static Button btnService;
     private Context mContext;
@@ -43,7 +40,7 @@ public class BackgroundSetUpActivityEach extends AppCompatActivity implements Vi
     private static TextView statusText1;
     private static TextView statusText2;
     private static TextView statusText3;
-    private Integer[] count = new Integer[]{100,500,1000,10000,50000,60000,100000};
+    private Integer[] count = new Integer[]{100,500,1000,2000,3000,5000,10000};
 
     private static boolean stopThreadFlag;
     private static Thread myThread;
@@ -138,21 +135,6 @@ public class BackgroundSetUpActivityEach extends AppCompatActivity implements Vi
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
-
-    /*private void refreshOrientation(){
-        if(mGravity != null && mGeomagnetic != null){
-            float R[] = new float[9];
-            float I[] = new float[9];
-            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
-            if (success) {
-                float orientation[] = new float[3];
-                SensorManager.getOrientation(R, orientation);
-                orientation01 = orientation[0];// * 180 / Math.PI);
-                orientation02 = orientation[1];// * 180 / Math.PI);
-                orientation03 = orientation[2];// * 180 / Math.PI);
-            }
-        }
-    }*/
 
     private void registerListeners() {
         switch(senzorRadio.getCheckedRadioButtonId()){
@@ -380,7 +362,7 @@ public class BackgroundSetUpActivityEach extends AppCompatActivity implements Vi
             //while(counter > 0 && !stopThreadFlag){
             while(!isFinished(senzorRadio.getCheckedRadioButtonId()) && !stopThreadFlag){
                 try{
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 }
                 catch(InterruptedException e){
                     e.printStackTrace();
@@ -405,7 +387,7 @@ public class BackgroundSetUpActivityEach extends AppCompatActivity implements Vi
                                 break;
                             case R.id.high_freq:
                                 statusText1.setText("Acc/LinAcc " +
-                                        (((counterFull - counters[Sensor.TYPE_ACCELEROMETER]) * 100.0)/counterFull)
+                                        (((counterFull - counters[Sensor.TYPE_LINEAR_ACCELERATION]) * 100.0)/counterFull)
                                         + "%/" + (((counterFull - counters[Sensor.TYPE_ACCELEROMETER]) * 100.0)/counterFull) + "%");
                                 statusText2.setText("Magnetic " +
                                         (((counterFull - counters[Sensor.TYPE_MAGNETIC_FIELD]) * 100.0)/counterFull) + "%");
@@ -423,7 +405,6 @@ public class BackgroundSetUpActivityEach extends AppCompatActivity implements Vi
                     stopThreadFlag = true;
                     btnService.setText("Start");
                     enableRadioGroup(senzorRadio, true);
-                    //senzorRadio.setEnabled(true);
                     statusText1.setText("");
                     statusText2.setText("sevas");
                     statusText3.setText("");

@@ -36,9 +36,6 @@ public class AudioCapture extends Activity {
 
         setButtonHandlers();
         enableButtons(false);
-
-        int bufferSize = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE,
-                RECORDER_CHANNELS, RECORDER_AUDIO_ENCODING);
     }
 
     private void setButtonHandlers() {
@@ -49,15 +46,9 @@ public class AudioCapture extends Activity {
         stopButton.setOnClickListener(btnClick);
     }
 
-    //private void enableButton(int id, boolean isEnable) {
-    //    ((Button) findViewById(id)).setEnabled(isEnable);
-    //}
-
     private void enableButtons(boolean isRecording) {
         startButton.setEnabled(!isRecording);
         stopButton.setEnabled(isRecording);
-        //enableButton(R.id.btnStart, !isRecording);
-        //enableButton(R.id.btnStop, isRecording);
     }
 
     int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
@@ -100,9 +91,6 @@ public class AudioCapture extends Activity {
     }
 
     private void writeAudioDataToFile() {
-        // Write the output audio in byte
-
-        //String filePath = "/sdcard/voice8K16bitmono.pcm";
         String filePath = getExternalFilesDir(null) + "/record_" + getFileTitle();
         short sData[] = new short[BufferElements2Rec];
 

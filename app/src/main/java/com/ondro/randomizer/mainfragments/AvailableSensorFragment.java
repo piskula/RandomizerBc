@@ -20,7 +20,6 @@ public class AvailableSensorFragment  extends ListFragment {
     private View rootView;
     private Bundle args;
 
-    //private TextView hopa;
     private SensorManager mySensorManager;
     private ListSensorsAdapter mAdapter;
     private List<Sensor> listSensors;

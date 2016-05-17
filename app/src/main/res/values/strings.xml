@@ -4,7 +4,7 @@
     <string name="title_section1">Available Sensors</string>
     <string name="title_section2">Sensor Values</string>
     <string name="title_section3">Capturing</string>
-    <string name="title_section4">Background</string>
+    <string name="title_section4">SoundRecord</string>
     <string name="title_accelerometer">Accelerometer</string>
     <string name="title_ambienttemperature">Ambient Temperature</string>
     <string name="title_battery">Battery</string>

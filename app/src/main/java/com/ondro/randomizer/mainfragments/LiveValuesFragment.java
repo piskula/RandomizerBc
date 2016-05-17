@@ -82,7 +82,7 @@ public class LiveValuesFragment extends BaseSensorFragment implements SensorEven
 
         InitializeViews();
 
-        mSignificantMotionListener = new SignificantMotionTriggerListener(this.getActivity(), significantMotion);
+        mSignificantMotionListener = new SignificantMotionTriggerListener(significantMotion);
         batteryThreadHandler.post(batteryThread);
 
         return rootView;
